@@ -1,0 +1,101 @@
+<div class="camera-container">
+  <!-- Vista previa de la cámara o imagen seleccionada -->
+  <div class="main-preview-container">
+    <!-- Vista previa de cámara en tiempo real -->
+    @if (cameraActive) {
+      <div class="video-container">
+        <video #videoElement class="camera-preview" autoplay playsinline></video>
+        <div class="camera-controls">
+          <button (click)="switchCamera()" class="switch-camera-button" title="Cambiar cámara">
+            <span class="camera-icon">🔄</span>
+          </button>
+          <button (click)="capturePhoto()" class="capture-button" title="Tomar foto">
+            <span class="camera-icon">📸</span>
+          </button>
+          <button (click)="stopCamera()" class="stop-camera-button" title="Cerrar cámara">
+            <span class="camera-icon">✖</span>
+          </button>
+        </div>
+      </div>
+    }
+    
+    <!-- Imagen seleccionada de la galería -->
+    @if (!cameraActive && selectedImage) {
+      <div class="image-view">
+        <img [src]="selectedImage" alt="Imagen seleccionada" class="captured-image">
+        <button (click)="selectedImage = null" class="close-image-button">✖</button>
+      </div>
+    }
+    
+    <!-- Última foto capturada (solo si no hay imagen seleccionada) -->
+    @if (!cameraActive && !selectedImage && imgUrl) {
+      <div class="image-view">
+        <img [src]="imgUrl" alt="Última foto capturada" class="captured-image">
+      </div>
+    }
+    
+    <!-- Placeholder cuando no hay imagen ni cámara activa -->
+    @if (!cameraActive && !selectedImage && !imgUrl) {
+      <div class="placeholder">
+        <span class="placeholder-icon">📷</span>
+        <span class="placeholder-text">Toca el botón de cámara para comenzar</span>
+      </div>
+    }
+  </div>
+
+  <!-- Botones de acción principales -->
+  <div class="actions-container">
+    @if (!cameraActive) {
+      <button (click)="startCamera()" class="start-camera-button" [disabled]="loading">
+        <span class="button-icon">📷</span>
+        <span class="button-text">Iniciar Cámara</span>
+      </button>
+    }
+    
+    <button (click)="loadFromGallery()" class="load-gallery-button" [disabled]="loading">
+      <span class="button-icon">📁</span>
+      <span class="button-text">Galería</span>
+    </button>
+    
+    @if (imageGallery.length > 0) {
+      <button (click)="clearGallery()" class="clear-gallery-button">
+        <span class="button-icon">🗑️</span>
+        <span class="button-text">Limpiar</span>
+      </button>
+    }
+  </div>
+
+  <!-- Spinner de carga -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Procesando...</div>
+    </div>
+  }
+
+  <!-- Mensaje de error -->
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+      <button class="close-error-button" (click)="errorMessage = ''">✖</button>
+    </div>
+  }
+
+  <!-- Galería de imágenes -->
+  @if (imageGallery.length > 0) {
+    <div class="gallery-section">
+      <div class="gallery-header">
+        <div class="gallery-title">Galería ({{ imageGallery.length }})</div>
+      </div>
+      
+      <div class="gallery-container">
+        @for (image of imageGallery; track $index; let i = $index) {
+          <div class="gallery-item" [class.selected]="selectedImage === image">
+            <img [src]="image" alt="Imagen {{ i + 1 }}" (click)="selectImage(image)">
+            <button class="delete-image-button" (click)="deleteImage(i)">✖</button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

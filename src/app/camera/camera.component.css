@@ -1,0 +1,388 @@
+.camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  touch-action: manipulation; /* Mejora la experiencia táctil */
+}
+
+/* Contenedor principal */
+.main-preview-container {
+  width: 100%;
+  height: 0;
+  padding-bottom: 133.33%; /* Relación de aspecto 3:4 vertical - mejor para cámaras de móviles */
+  position: relative;
+  margin-bottom: 15px;
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Vista previa de la cámara */
+.video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.camera-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que el video llene el contenedor */
+  transform: scaleX(1); /* Voltear horizontalmente si es necesario */
+}
+
+/* Controles de la cámara */
+.camera-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+}
+
+.capture-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 3px solid white;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.capture-button:active {
+  background-color: rgba(255, 255, 255, 0.5);
+  transform: scale(0.95);
+}
+
+.switch-camera-button, .stop-camera-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.switch-camera-button:active, .stop-camera-button:active {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: scale(0.95);
+}
+
+.camera-icon {
+  display: block;
+  line-height: 1;
+}
+
+/* Vista de imagen */
+.image-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+}
+
+.captured-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.close-image-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+}
+
+/* Placeholder */
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1c1c1c;
+  border-radius: 8px;
+}
+
+.placeholder-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+  color: #fff;
+}
+
+.placeholder-text {
+  font-size: 16px;
+  color: #bbb;
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* Contenedor de botones de acción */
+.actions-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+/* Estilos de botones mejor adaptados para móviles */
+.start-camera-button, .load-gallery-button, .clear-gallery-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.start-camera-button {
+  background-color: #673ab7;
+  color: white;
+}
+
+.load-gallery-button {
+  background-color: #2196f3;
+  color: white;
+}
+
+.clear-gallery-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.button-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.button-text {
+  font-weight: 500;
+}
+
+.start-camera-button:active, .load-gallery-button:active, .clear-gallery-button:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+.start-camera-button:disabled, .load-gallery-button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Estilo para el indicador de carga */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.loading-spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(103, 58, 183, 0.2);
+  border-radius: 50%;
+  border-top: 3px solid #673ab7;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #555;
+}
+
+.error-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 10px 0;
+  padding: 12px;
+  color: #d32f2f;
+  background-color: rgba(211, 47, 47, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid #d32f2f;
+  font-size: 14px;
+}
+
+.close-error-button {
+  background: none;
+  border: none;
+  color: #d32f2f;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+/* Estilos de la galería optimizados para móvil */
+.gallery-section {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px 8px 5px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+
+.gallery-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item.selected {
+  border: 2px solid #673ab7;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.delete-image-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.delete-image-button:active {
+  background-color: #f44336;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Ajustes específicos para pantallas pequeñas */
+@media (max-width: 360px) {
+  .gallery-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .button-text {
+    font-size: 12px;
+  }
+  
+  .camera-controls {
+    gap: 15px;
+  }
+  
+  .capture-button {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Ajuste para pantallas medianas */
+@media (min-width: 600px) {
+  .camera-container {
+    max-width: 550px;
+  }
+  
+  .main-preview-container {
+    padding-bottom: 75%; /* 4:3 para pantallas más grandes */
+  }
+  
+  .gallery-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Mejor manejo de rotación de pantalla */
+@media (orientation: landscape) {
+  .main-preview-container {
+    padding-bottom: 56.25%; /* 16:9 para orientación horizontal */
+  }
+}
